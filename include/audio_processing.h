@@ -1,5 +1,5 @@
-#ifndef AUDIO_PROCESSING_HPP
-#define AUDIO_PROCESSING_HPP
+#ifndef AUDIO_PROCESSING_H
+#define AUDIO_PROCESSING_H
 
 #include "esp_err.h"
 

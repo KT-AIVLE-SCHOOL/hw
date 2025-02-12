@@ -8,19 +8,20 @@
 #include "esp_adc/adc_cali.h"
 #include "esp_adc/adc_oneshot.h"
 #include "esp_heap_caps.h"
+#include "driver/i2s.h"
 
 #include <math.h>
 
-#define SAMPLE_RATE 16000
-#define RECORD_TIME 5000
-#define BUFFER_SIZE 1024
+#define SAMPLE_RATE 22500
+#define RECORD_TIME 6000
+#define BUFFER_SIZE 4096
 #define FRAME_LENGTH 512
 #define FRAME_STEP 256
 #define NUM_MEL_FILTERS 40
 #define FFT_SIZE 512
-#define SAMPLE_INTERVAL 1000000 / SAMPLE_RATE
+#define SAMPLE_INTERVAL (1000000 / SAMPLE_RATE)
 #define MAX_AUDIO_SIZE (SAMPLE_RATE * RECORD_TIME / 1000)
-#define ADC_CHANNEL ADC_CHANNEL_8
+#define ADC_CHANNEL ADC_CHANNEL_1
 
 static const char* TAG = "AUDIO_PROCESSING";
 
@@ -192,7 +193,6 @@ void recordAudio() {
         return;
     }
 
-    // Write WAV header (44 bytes of zeros for now)
     for (int i = 0; i < 44; i++) {
         fputc(0, f);
     }
@@ -245,7 +245,6 @@ void recordAudio() {
     ESP_LOGI(TAG, "Recording completed and saved");
 }
 
-// Helper function to write WAV header
 void writeWaveHeader(FILE* file, uint32_t dataSize) {
     fseek(file, 0, SEEK_SET);
     

@@ -9,18 +9,12 @@
 
 #include "audio_processing.h"
 #include "sd_card.h"
-#include "nimble_handler.h"
-// #include "uart_handler.h"
+// #include "nimble_handler.h"
+#include "uart_handler.h"
 
 static const char* TAG = "MAIN";
 
 void loop(void);
-
-static void ble_host_task(void *param)
-{
-    nimble_port_run();
-    nimble_port_freertos_deinit();
-}
 
 extern "C" void app_main(void)
 {
@@ -64,12 +58,12 @@ extern "C" void app_main(void)
     }
 
     // ble 초기화
-    while (!init_nimble()) {
-        ESP_LOGE(TAG, "Failed to initialize nimble");
-        vTaskDelay(pdMS_TO_TICKS(10));
-    };
+    // while (!init_nimble()) {
+    //     ESP_LOGE(TAG, "Failed to initialize nimble");
+    //     vTaskDelay(pdMS_TO_TICKS(10));
+    // };
 
-    // init_uart();
+    init_uart();
 
     ESP_LOGI(TAG, "System ready. please bluetooth connection");
 
@@ -84,8 +78,8 @@ extern "C" void app_main(void)
 
 void loop() {
     while (1) {
-        nimble_port_run();
-        // uart_read();
+        // nimble_port_run();
+        uart_read();
 
         vTaskDelay(pdMS_TO_TICKS(10));
     }
